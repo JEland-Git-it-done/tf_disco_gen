@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt; import  matplotlib as mpl
 mpl.rcParams["figure.figsize"] = (12,12)
 mpl.rcParams["axes.grid"] = False
 import numpy as np; import PIL.Image; import time; import functools
+#To get the modules working, use pip install: tensorflow, Image, Mmatplotlib and ipython
 
 def tensor_to_image(tensor):
     tensor = tensor*255 #pixels
