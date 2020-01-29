@@ -1,7 +1,8 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 #Setting up imports, using following guide as a reference for the first function
 #Courtesty of tensorflow https://www.tensorflow.org/tutorials/generative/style_transfer
-import tensorflow as tf; import IPython.display as display
+import tensorflow as tf
+import IPython.display as display
 import matplotlib.pyplot as plt; import  matplotlib as mpl
 mpl.rcParams["figure.figsize"] = (12,12)
 mpl.rcParams["axes.grid"] = False
@@ -14,3 +15,7 @@ def tensor_to_image(tensor):
         assert tensor.shape[0] == 1
         tensor = tensor[0]
     return PIL.Image.fromarray(tensor)
+#Selects base image, left side is name, right side is file origin
+base_image_path = tf.keras.utils.get_file('YellowLabradorLooking_new.jpg', 'https://storage.googleapis.com/download.tensorflow.org/example_images/YellowLabradorLooking_new.jpg')
+style_path = tf.keras.utils.get_file('kandinsky5.jpg','https://storage.googleapis.com/download.tensorflow.org/example_images/Vassily_Kandinsky%2C_1913_-_Composition_7.jpg')
+print("Tensorflow did not explode")
