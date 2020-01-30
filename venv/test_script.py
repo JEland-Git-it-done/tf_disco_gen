@@ -1,7 +1,7 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 #Setting up imports, using following guide as a reference for the first function
 #Courtesty of tensorflow https://www.tensorflow.org/tutorials/generative/style_transfer
-import tensorflow as tf
+import tensorflow as tf; import tensorflow_hub as hub
 import IPython.display as display
 import matplotlib.pyplot as plt; import  matplotlib as mpl
 mpl.rcParams["figure.figsize"] = (12,12)
@@ -11,6 +11,7 @@ import numpy as np; import PIL.Image; import time; import functools
 
 #Selects base image, left side is name, right side is file origin
 base_image_path = tf.keras.utils.get_file('YellowLabradorLooking_new.jpg', 'https://storage.googleapis.com/download.tensorflow.org/example_images/YellowLabradorLooking_new.jpg')
+#base_image_path = tf.keras.utils.get_file('EvSzupp.jpg', 'https://i.imgur.com/EvSzupp.jpg')
 # https://commons.wikimedia.org/wiki/File:Vassily_Kandinsky,_1913_-_Composition_7.jpg
 base_style_path = tf.keras.utils.get_file('kandinsky5.jpg','https://storage.googleapis.com/download.tensorflow.org/example_images/Vassily_Kandinsky%2C_1913_-_Composition_7.jpg')
 #style_path = tf.keras.utils.get_file('YellowLabradorLooking_new.jpg', 'https://storage.googleapis.com/download.tensorflow.org/example_images/YellowLabradorLooking_new.jpg')
@@ -46,12 +47,28 @@ def img_show(image, title=None):
     if title:
         plt.title(title)
 
+
+
+def mix_tf_hub():
+    hub_module = hub.load('https://tfhub.dev/google/magenta/arbitrary-image-stylization-v1-256/1')
+    stylized_image = hub_module(tf.constant(content_image), tf.constant(style_image))[0]
+    tensor_to_image(stylized_image)
+    plt.subplot(1,1,1)
+    img_show(stylized_image)
+    plt.show()
+
+
+
 content_image = load_image(base_image_path)
 style_image = load_image(base_style_path)
+
 plt.subplot(1, 2, 1)
 img_show(content_image, "Content Image")
 plt.subplot(1, 2,2)
 img_show(style_image, "Style Image")
 plt.show()
+mix_tf_hub()
+
+
 
 
