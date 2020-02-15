@@ -11,9 +11,10 @@ import numpy as np; import PIL.Image; import time; import functools
 
 #Selects base image, left side is name, right side is file origin
 base_image_path = tf.keras.utils.get_file('YellowLabradorLooking_new.jpg', 'https://storage.googleapis.com/download.tensorflow.org/example_images/YellowLabradorLooking_new.jpg')
-#base_image_path = tf.keras.utils.get_file('EvSzupp.jpg', 'https://i.imgur.com/EvSzupp.jpg')
+#base_image_path = tf.keras.utils.get_file('Margaret_Thatcher_portrait.jpg', 'https://upload.wikimedia.org/wikipedia/commons/1/1a/Margaret_Thatcher_portrait.jpg')
 # https://commons.wikimedia.org/wiki/File:Vassily_Kandinsky,_1913_-_Composition_7.jpg
 base_style_path = tf.keras.utils.get_file('kandinsky5.jpg','https://storage.googleapis.com/download.tensorflow.org/example_images/Vassily_Kandinsky%2C_1913_-_Composition_7.jpg')
+#base_style_path = tf.keras.utils.get_file('nR3aiaL.jpg','https://i.imgur.com/nR3aiaL.jpg')
 #style_path = tf.keras.utils.get_file('YellowLabradorLooking_new.jpg', 'https://storage.googleapis.com/download.tensorflow.org/example_images/YellowLabradorLooking_new.jpg')
 print("Tensorflow did not explode")
 
@@ -57,6 +58,23 @@ def mix_tf_hub():
     img_show(stylized_image)
     plt.show()
 
+def set_up_vg():
+    x = tf.keras.applications.vgg19.preprocess_input(content_image*255)
+    x = tf.image.resize(x , (224,224))
+    vgg = tf.keras.applications.VGG19(include_top=True, weights="imagenet")
+    pr_probabilitiy = vgg(x)
+    pr_probabilitiy.shape
+    top_prediction = tf.keras.applications.vgg19.decode_predictions(pr_probabilitiy.numpy())[0]
+    var = [(class_name, prob) for (number, class_name, prob) in top_prediction]
+    print(var)
+
+    vgg = tf.keras.applications.VGG19(include_top=False, weights="imagenet")
+    #print()
+    for layer in vgg.layers:
+        print(layer.name)
+
+
+
 
 
 content_image = load_image(base_image_path)
@@ -67,7 +85,8 @@ img_show(content_image, "Content Image")
 plt.subplot(1, 2,2)
 img_show(style_image, "Style Image")
 plt.show()
-mix_tf_hub()
+#mix_tf_hub()
+set_up_vg()
 
 
 
